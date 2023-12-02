@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:32:43 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/29 16:27:14 by bfaisy           ###   ########.fr       */
+/*   Updated: 2023/12/02 16:56:29 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_free_for_map(t_storage *stock, int p);
 int		x11_destroy_event(t_storage *stock);
+int		acces(void);
+
 
 int	ftclose(int keycode, t_storage *stock)
 {
@@ -51,6 +53,8 @@ int	main(void)
 	stock.pos.x = 0;
 	stock.pos.y = 0;
 	stock.nbr = 0;
+	if (acces() == 0)
+		return (0);
 	stock.tab = mapwind(&wind);
 	stock.tab2 = create_tab();
 	if (check_main(stock.tab2) == 0)
@@ -81,4 +85,13 @@ void	ft_free_for_map(t_storage *stock, int p)
 		free((*stock).vars.mlx);
 		exit(0);
 	}
+}
+
+int	acces(void)
+{
+	if (open("map.ber", O_RDONLY | O_DIRECTORY) > 2)
+		return (0);
+	if (open("map.ber", O_RDONLY) > 2)
+		return (1);
+	return (0);
 }
