@@ -1,39 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_tab_utils.c                                 :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 14:00:14 by bfaisy            #+#    #+#             */
-/*   Updated: 2024/02/02 15:58:20 by bfaisy           ###   ########.fr       */
+/*   Created: 2023/12/24 11:48:59 by bfaisy            #+#    #+#             */
+/*   Updated: 2024/02/02 16:10:44 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	open_fail(void)
+void	exitfloor(t_storage stock, int fd1, int fd2)
 {
-	ft_putstr_fd("Error :\nOpen map fail", 1);
-	exit(0);
-}
-
-void	protec_str(char **str)
-{
-	freetab(str);
-	ft_putstr_fd("Error :\nProbably malloc fail or read fail", 1);
-	exit(0);
-}
-
-void	cpy_utils(char **str, char ***new_str, int i)
-{
-	int	j;
-
-	j = 0;
-	while (str[i][j] != '\n' && str[i][j] != '\0')
-	{
-		(*new_str)[i][j] = str[i][j];
-		j++;
-	}
-	(*new_str)[i][j] = '\0';
+	ft_putstr_fd("Error : Textures : Floor error \n", 1);
+	freetab((stock).tab);
+	freetab((stock).tab2);
+	mlx_destroy_window((stock).vars.mlx, (stock).vars.win);
+	mlx_destroy_display((stock).vars.mlx);
+	free((stock).vars.mlx);
+	if (fd1 != -1)
+		close(fd1);
+	if (fd2 != -1)
+		close(fd2);
+	exit (1);
 }

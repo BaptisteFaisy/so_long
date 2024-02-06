@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:32:43 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/12/02 16:56:29 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/05 20:34:40 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	ft_free_for_map(t_storage *stock, int p);
 int		x11_destroy_event(t_storage *stock);
-int		acces(void);
-
+int		acces(char *str);
 
 int	ftclose(int keycode, t_storage *stock)
 {
@@ -43,22 +42,24 @@ int	x11_destroy_event(t_storage *stock)
 	return (0);
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	t_xy		wind;
 	t_storage	stock;
 
 	wind.x = 0;
 	wind.y = 0;
+	if (ac != 2)
+		return (1);
 	stock.pos.x = 0;
 	stock.pos.y = 0;
 	stock.nbr = 0;
-	if (acces() == 0)
-		return (0);
-	stock.tab = mapwind(&wind);
-	stock.tab2 = create_tab();
-	if (check_main(stock.tab2) == 0)
-		exit(0);
+	if (acces(av[1]) == 0)
+		return (1);
+	stock.tab = mapwind(&wind, av);
+	stock.tab2 = create_tab(av);
+	if (check_main(stock) == 0)
+		return (1);
 	stock.vars.mlx = mlx_init();
 	if (stock.vars.mlx == NULL)
 		ft_free_for_map(&stock, 1);
@@ -72,13 +73,7 @@ int	main(void)
 
 void	ft_free_for_map(t_storage *stock, int p)
 {
-	if (p == 0)
-	{
-		ft_putstr_fd("Error : \nInvalid map", 1);
-		freetab((*stock).tab);
-		exit(0);
-	}
-	else if (p == 1)
+	if (p == 1)
 	{
 		ft_putstr_fd("Error : \nmlx_init fail", 1);
 		freetab((*stock).tab);
@@ -87,11 +82,25 @@ void	ft_free_for_map(t_storage *stock, int p)
 	}
 }
 
-int	acces(void)
+int	acces(char *str)
 {
-	if (open("map.ber", O_RDONLY | O_DIRECTORY) > 2)
+	int	fd;
+
+	if (bercheck(str) == 0)
 		return (0);
-	if (open("map.ber", O_RDONLY) > 2)
+	fd = open(str, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error : I can't open the map\n", 1);
+		return (0);
+	}
+	close(fd);
+	fd = open(str, O_DIRECTORY);
+	if (fd == -1)
+	{
 		return (1);
+	}
+	close(fd);
+	ft_putstr_fd("Error : Directory found, file expected \n", 1);
 	return (0);
 }

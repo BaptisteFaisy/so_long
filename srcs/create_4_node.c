@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 16:48:02 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/29 17:03:33 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/06 18:33:34 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@ bool	create_4_node(int *pos_p, int *pos_e, char ***str,
 {
 	t_mouv	mouv;
 
+	if (checkifclose(pos_p, *str) == 1)
+		return (true);
 	mouv.pos_e = pos_e;
 	mouv.is_created = false;
 	if ((*str)[pos_p[0]][pos_p[1] - 1] != '1' &&
-		(*str)[pos_p[0]][pos_p[1] - 1] != '9')
+		(*str)[pos_p[0]][pos_p[1] - 1] != '9' &&
+		(*str)[pos_p[0]][pos_p[1] - 1] != 'E')
 	{
 		mouv.is_created = true;
 		mouv.left = create_node();
@@ -42,7 +45,8 @@ bool	create_4_node_next1(int *pos_p, char ***str,
 	t_list_pos *head_main, t_mouv mouv)
 {
 	if ((*str)[pos_p[0]][pos_p[1] + 1] != '1' &&
-		(*str)[pos_p[0]][pos_p[1] + 1] != '9')
+		(*str)[pos_p[0]][pos_p[1] + 1] != '9' &&
+		(*str)[pos_p[0]][pos_p[1] + 1] != 'E')
 	{
 		mouv.is_created = true;
 		mouv.right = create_node();
@@ -52,7 +56,8 @@ bool	create_4_node_next1(int *pos_p, char ***str,
 		add_to_list(head_main, mouv.right);
 	}
 	if ((*str)[pos_p[0] - 1][pos_p[1]] != '1' &&
-		(*str)[pos_p[0] - 1][pos_p[1]] != '9')
+		(*str)[pos_p[0] - 1][pos_p[1]] != '9' &&
+		(*str)[pos_p[0] - 1][pos_p[1]] != 'E')
 	{
 		mouv.is_created = true;
 		mouv.up = create_node();
@@ -68,7 +73,8 @@ bool	create_4_node_next2(int *pos_p, char ***str,
 	t_list_pos *head_main, t_mouv mouv)
 {
 	if ((*str)[pos_p[0] + 1][pos_p[1]] != '1' &&
-		(*str)[pos_p[0] + 1][pos_p[1]] != '9')
+		(*str)[pos_p[0] + 1][pos_p[1]] != '9' &&
+		(*str)[pos_p[0] + 1][pos_p[1]] != 'E')
 	{
 		mouv.is_created = true;
 		mouv.down = create_node();
@@ -77,5 +83,12 @@ bool	create_4_node_next2(int *pos_p, char ***str,
 		mouv.down->data.dist = (calculus(pos_p[0] + 1, pos_p[1], mouv.pos_e));
 		add_to_list(head_main, mouv.down);
 	}
-	return (mouv.is_created);
+	if (mouv.is_created == false)
+	{
+		if (check_if_9_all(head_main) == 0)
+			return (false);
+	}
+	else
+		return (true);
+	return (false);
 }

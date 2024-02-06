@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 10:54:55 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/28 16:02:53 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/06 18:17:16 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 int	check_spawn_and_end(char **tab);
 int	check_input(char **tab);
 
-int	check_main(char **tab)
+int	check_main(t_storage stock)
 {
-	if (check_bord(tab) == 0 || check_spawn_and_end(tab) == 0
-		|| check_input(tab) == 0 || check_rect(tab) == 0
-		|| main_algo(tab) == 0)
-		return (0);
+	if (check_bord(stock.tab2) == 0 || check_spawn_and_end(stock.tab2) == 0
+		|| check_input(stock.tab2) == 0 || check_rect(stock.tab2) == 0
+		|| main_algo(stock) == 0)
+	{
+		ft_putstr_fd("Error : \nInvalid map", 1);
+		freetab(stock.tab);
+		freetab(stock.tab2);
+		exit (1);
+	}
 	return (1);
 }
 
@@ -107,7 +112,9 @@ int	check_input(char **tab)
 {
 	int	i;
 	int	j;
+	int	cond;
 
+	cond = false;
 	i = 0;
 	while (tab[i] != NULL)
 	{
@@ -118,8 +125,12 @@ int	check_input(char **tab)
 				&& tab[i][j] != 'C' && tab[i][j] != 'E')
 				return (0);
 			j++;
+			if (tab[i][j] == 'C')
+				cond = true;
 		}
 		i++;
 	}
+	if (cond == false)
+		return (0);
 	return (1);
 }

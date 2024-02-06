@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:32:36 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/29 17:09:21 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/06 17:48:45 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_storage
 	char	**tab;
 	int		nbr;
 	char	**tab2;
+	int		*map;
 }	t_storage;
 
 typedef struct s_img
@@ -75,15 +76,16 @@ typedef struct s_mouv
 	int			p;
 }	t_mouv;
 
-char		**mapwind(t_xy	*wind);
+char		**mapwind(t_xy	*wind, char **av);
 char		**freetab(char **str);
 void		create_img(t_storage stock);
 void		put_wall(t_storage stock, int i, int j);
 void		put_items(t_storage stock, int i, int j);
 void		put_end(t_storage stock, int i, int j);
+int			bercheck(char *str);
 void		put_character(t_storage stock, int i, int j);
 int			check_bord(char **tab);
-int			check_main(char **tab);
+int			check_main(t_storage stock);
 int			check_rect(char **tab);
 void		protec_str(char **str);
 void		open_fail(void);
@@ -95,7 +97,7 @@ int			strlencustom(char *tab);
 void		check_fin(t_storage stock);
 int			free_goto(t_storage stock);
 void		cpy_utils(char **str, char ***new_str, int i);
-char		**create_tab(void);
+char		**create_tab(char **av);
 void		protec_str(char **str);
 void		up_img(t_storage stock);
 int			main_find(char	**str, t_list_pos *head, int *pos_p);
@@ -108,15 +110,18 @@ bool		create_4_node(int *pos_p, int *pos_e, char ***str,
 				t_list_pos *head_main);
 int			check_items(char **str);
 int			*find_items(char **str);
-int			main_algo(char **str);
+int			main_algo(t_storage stock);
 int			*cpy_tab_and_find_chara(char **str);
 int			*find_end(char **str);
-void		create_4_node_start(int *pos_p, int *pos_e, char ***str,
+void		create_4_node_start(int *pos_p, int *pos_e, char **str,
 				t_list_pos	*head_main);
-int			goto_min_items(t_list_pos *head, char **str, int *pos_p);
+int			goto_min_items(t_list_pos *head, t_storage stock, int *pos_p);
 char		**replace_9_by_0(char **str);
 void		freelist(t_list_pos *head);
 t_list_pos	*get_first(t_list_pos *head);
+void		ft_free_for_map(t_storage *stock, int p);
+int			checkifclose(int *pos_p, char **str);
+void		exitfloor(t_storage stock, int fd1, int fd2);
 
 # define SL_X11_EVENT_DESTROY_NOTIFY 17
 # define TRUE 1

@@ -6,20 +6,20 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:08:51 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/29 17:18:50 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/05 20:56:42 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	create_4_node_start_next3(int *pos_p, char ***str,
+void	create_4_node_start_next3(int *pos_p, char **str,
 			t_list_pos	*head_main, t_mouv mouv);
-void	create_4_node_start_next1(int *pos_p, char ***str,
+void	create_4_node_start_next1(int *pos_p, char **str,
 			t_list_pos	*head_main, t_mouv mouv);
-void	create_4_node_start_next2(int *pos_p, char ***str,
+void	create_4_node_start_next2(int *pos_p, char **str,
 			t_list_pos	*head_main, t_mouv mouv);
 
-void	create_4_node_start(int *pos_p, int *pos_e, char ***str,
+void	create_4_node_start(int *pos_p, int *pos_e, char **str,
 	t_list_pos	*head_main)
 {
 	t_mouv	mouv;
@@ -27,7 +27,9 @@ void	create_4_node_start(int *pos_p, int *pos_e, char ***str,
 	mouv.pos_e = pos_e;
 	mouv.p = 0;
 	head_main->data.dist = -1;
-	if ((*str)[pos_p[0]][pos_p[1] - 1] != '1')
+	if ((str)[pos_p[0]][pos_p[1] - 1] != '1' &&
+		(str)[pos_p[0]][pos_p[1] - 1] != '9' &&
+		(str)[pos_p[0]][pos_p[1] - 1] != 'E')
 	{
 		mouv.left = create_node();
 		if (mouv.left)
@@ -46,10 +48,12 @@ void	create_4_node_start(int *pos_p, int *pos_e, char ***str,
 	create_4_node_start_next1(pos_p, str, head_main, mouv);
 }
 
-void	create_4_node_start_next1(int *pos_p, char ***str,
+void	create_4_node_start_next1(int *pos_p, char **str,
 	t_list_pos	*head_main, t_mouv mouv)
 {
-	if ((*str)[pos_p[0]][pos_p[1] + 1] != '1')
+	if ((str)[pos_p[0]][pos_p[1] + 1] != '1' &&
+		(str)[pos_p[0]][pos_p[1] + 1] != '9' &&
+		(str)[pos_p[0]][pos_p[1] + 1] != 'E')
 	{
 		mouv.right = create_node();
 		if (mouv.right)
@@ -70,10 +74,12 @@ void	create_4_node_start_next1(int *pos_p, char ***str,
 	create_4_node_start_next2(pos_p, str, head_main, mouv);
 }
 
-void	create_4_node_start_next2(int *pos_p, char ***str,
+void	create_4_node_start_next2(int *pos_p, char **str,
 	t_list_pos	*head_main, t_mouv mouv)
 {
-	if ((*str)[pos_p[0] - 1][pos_p[1]] != '1')
+	if (str[pos_p[0] - 1][pos_p[1]] != '1' &&
+		str[pos_p[0] - 1][pos_p[1]] != '9' &&
+		(str)[pos_p[0] - 1][pos_p[1]] != 'E')
 	{
 		mouv.up = create_node();
 		if (mouv.up)
@@ -93,10 +99,12 @@ void	create_4_node_start_next2(int *pos_p, char ***str,
 	create_4_node_start_next3(pos_p, str, head_main, mouv);
 }
 
-void	create_4_node_start_next3(int *pos_p, char ***str,
+void	create_4_node_start_next3(int *pos_p, char **str,
 	t_list_pos	*head_main, t_mouv mouv)
 {
-	if ((*str)[pos_p[0] + 1][pos_p[1]] != '1')
+	if ((str)[pos_p[0] + 1][pos_p[1]] != '1' &&
+		(str)[pos_p[0] + 1][pos_p[1]] != '9' &&
+		(str)[pos_p[0] + 1][pos_p[1]] != 'E')
 	{
 		mouv.down = create_node();
 		if (mouv.down)

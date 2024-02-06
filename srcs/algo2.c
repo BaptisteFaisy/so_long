@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 11:13:19 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/29 16:48:33 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/05 20:54:14 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,18 @@ void	add_to_list(t_list_pos *head, t_list_pos *add)
 	}
 }
 
-int	goto_min_items(t_list_pos *head, char **str, int *pos_p)
+int	goto_min_items(t_list_pos *head, t_storage stock, int *pos_p)
 {
 	t_list_pos	*last;
 	int			b;
 
 	last = get_first(head);
-	if (str[last->data.y][last->data.x] == 'C')
-	{
+	if (stock.tab2[last->data.y][last->data.x] == 'C')
 		b = 1;
-	}
 	else
 		b = 0;
-	str[last->data.y][last->data.x] = 'P';
-	str[pos_p[0]][pos_p[1]] = '9';
+	stock.tab2[last->data.y][last->data.x] = 'P';
+	stock.tab2[pos_p[0]][pos_p[1]] = '9';
 	pos_p[0] = last->data.y;
 	pos_p[1] = last->data.x;
 	head->next = last->next;

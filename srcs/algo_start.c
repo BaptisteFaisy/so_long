@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 10:33:37 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/29 17:09:43 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/06 18:06:34 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 // les tableaux ne sont aps free
 int		*cpy_tab_and_find_chara(char **str);
 int		*find_end(char **str);
-void	create_4_node_start(int *pos_p, int *pos_e, char ***str,
-			t_list_pos	*head_main);
 
 t_list_pos	*create_node(void)
 {
@@ -33,27 +31,27 @@ int	main_find(char	**str, t_list_pos *head, int *pos_p)
 	int			*pos_e;
 
 	pos_e = find_end(str);
+	if (checkifclose(pos_p, str))
+	{
+		free(pos_p);
+		freelist(head);
+		return (free(pos_e), 1);
+	}
 	while (TRUE)
 	{
-		if (goto_min(head, str, pos_p) == 1)
-		{
-			freelist(head);
-			free(pos_p);
-			return (free(pos_e), 1);
-		}
 		if (check_if_9_all(head) == 0)
 		{
 			freelist(head);
 			free(pos_e);
 			return (free(pos_p), 0);
 		}
-		if (create_4_node(pos_p, pos_e, &str, head) == false)
+		if (goto_min(head, str, pos_p) == 1)
 		{
 			freelist(head);
-			free(pos_p);
-			free(pos_e);
-			return (0);
+			return (free(pos_e), free(pos_p), 1);
 		}
+		if (create_4_node(pos_p, pos_e, &str, head) == false)
+			return (free(pos_e), free(pos_p), freelist(head), 0);
 	}
 }
 
@@ -110,5 +108,6 @@ int	*find_end(char **str)
 		}
 		i++;
 	}
+	free(tab_int);
 	return (0);
 }

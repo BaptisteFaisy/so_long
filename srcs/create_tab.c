@@ -6,7 +6,7 @@
 /*   By: bfaisy <bfaisy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:47:03 by bfaisy            #+#    #+#             */
-/*   Updated: 2023/11/30 16:45:04 by bfaisy           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:38:07 by bfaisy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**freetab(char **str)
 }
 
 // actuellement les 2 tableaux ne sont pas clean, il n y en a qu un
-char	**create_tab(void)
+char	**create_tab(char **av)
 {
 	int		fd;
 	char	**str;
@@ -63,7 +63,7 @@ char	**create_tab(void)
 	int		size;
 	int		dbu;
 
-	fd = open("map.ber", O_RDONLY);
+	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		open_fail();
 	size = 2;
@@ -75,22 +75,22 @@ char	**create_tab(void)
 		str = cpy(str, size, dbu);
 		str[i] = get_next_line(fd);
 		if (!str[i])
-			return (str);
+			return (close(fd), str);
 		i++;
 		size++;
 		dbu = 0;
 	}
-	return (NULL);
+	return (close (fd), NULL);
 }
 
-char	**mapwind(t_xy	*wind)
+char	**mapwind(t_xy	*wind, char **av)
 {
 	int		i;
 	int		j;
 	char	**tab;
 
 	i = 0;
-	tab = create_tab();
+	tab = create_tab(av);
 	if (!tab)
 		exit_big_map(tab);
 	j = 0;
